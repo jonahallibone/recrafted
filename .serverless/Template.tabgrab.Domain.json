@@ -1,0 +1,13 @@
+{
+  "region": "us-east-1",
+  "privateZone": false,
+  "domain": "tabgrab.app",
+  "subdomains": [
+    {
+      "domain": "www.tabgrab.app",
+      "distributionId": "ED3H58DRRUAYS",
+      "url": "https://d32b2vbavvehvi.cloudfront.net",
+      "type": "awsCloudFront"
+    }
+  ]
+}
