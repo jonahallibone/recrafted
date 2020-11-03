@@ -36,3 +36,5 @@ yarn-error.log*
 
 .env
 
+.serverless
+.serverless_nextjs

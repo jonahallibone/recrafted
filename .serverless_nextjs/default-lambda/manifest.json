@@ -1,1 +1,0 @@
-{"buildId":"f5NNxVrB78GrTIFVnOzRb","logLambdaExecutionTimes":false,"pages":{"ssr":{"dynamic":{},"nonDynamic":{"/":"pages/index.js","/_error":"pages/_error.js"}},"html":{"dynamic":{},"nonDynamic":{}}},"publicFiles":{"/favicon.ico":"favicon.ico","/vercel.svg":"vercel.svg"},"trailingSlash":false,"domainRedirects":{},"enableHTTPCompression":false}
