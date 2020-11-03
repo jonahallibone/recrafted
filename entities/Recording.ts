@@ -2,6 +2,7 @@ import {
   Entity,
   ManyToOne,
   Property,
+  Unique,
 } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
 import { User } from "./User";
@@ -9,6 +10,7 @@ import { User } from "./User";
 @Entity()
 export class Recording extends BaseEntity {
   @Property({ nullable: false })
+  @Unique()
   filename!: string;
 
   @Property({ nullable: false })
