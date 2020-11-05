@@ -9,10 +9,9 @@ const Layout = ({ nopadding = false, children }) => (
     pt={nopadding ? 0 : 4}
     px={nopadding ? 0 : 4}
     boxSizing={nopadding ? "content-box" : "border-box"}
-    bg="teal.400"
   >
     <Head>
-      <title>Aircards Dashboard</title>
+      <title>Tab Grab | Share a Screen Recording</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     {children}

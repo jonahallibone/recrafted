@@ -30,6 +30,20 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-RZZL7C4F5T"
+        />
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-RZZL7C4F5T');`,
+          }}
+        />
         <body>
           <Main />
           <NextScript />

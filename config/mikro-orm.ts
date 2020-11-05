@@ -3,7 +3,10 @@ import { Options } from "@mikro-orm/core";
 import dotenv from "dotenv";
 import { BaseEntity } from "../entities/BaseEntity";
 import { Recording } from "../entities/Recording";
-dotenv.config();
+
+dotenv.config({
+  path: process.env.NODE_ENV === "development" ? ".env" : ".env.production.local",
+});
 
 const config: Options = {
   dbName: process.env.MYSQL_DATABASE,

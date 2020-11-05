@@ -10,7 +10,6 @@ import {
   Icon,
   Button,
   Text,
-  Image,
 } from "@chakra-ui/core";
 import Link from "next/link";
 import { LogOut } from "react-feather";
@@ -31,22 +30,22 @@ const Navigation = () => {
     <Menu>
       <MenuButton
         as={Button}
-        bg="teal.700"
+        bg="blue.700"
         transition="all 0.2s"
         rounded="md"
-        _hover={{ bg: "teal.500" }}
-        _expanded={{ bg: "teal.600" }}
+        _hover={{ bg: "blue.500" }}
+        _expanded={{ bg: "blue.600" }}
         _focus={{ outline: 0, boxShadow: "outline" }}
-        _active={{ bg: "teal.400" }}
+        _active={{ bg: "blue.400" }}
       >
         <MemoizedAvatar />
         <Flex>
           <Text display={["none", "none", "block"]}>{auth.user.name}</Text> <Icon name="chevron-down" ml="2" />
         </Flex>
       </MenuButton>
-      <MenuList bg="teal.600">
+      <MenuList bg="blue.600">
         <MenuItem
-          _focus={{ bg: "teal.500" }}
+          _focus={{ bg: "blue.500" }}
           fontWeight="medium"
           onClick={logout}
         >
@@ -59,11 +58,7 @@ const Navigation = () => {
 
   const LoginButton = () => (
     <Button
-      bg="teal.300"
-      _hover={{ bg: "teal.500" }}
-      _expanded={{ bg: "teal.600" }}
-      _focus={{ outline: 0, boxShadow: "outline" }}
-      _active={{ bg: "teal.400" }}
+      variantColor="cyan"
       onClick={login}
       mx={2}
     >
@@ -73,12 +68,7 @@ const Navigation = () => {
 
   const SignUpButton = () => (
     <Button
-      bg="yellow.300"
-      color="teal.400"
-      _hover={{ bg: "yellow.200" }}
-      _expanded={{ bg: "yellow.200" }}
-      _focus={{ outline: 0, boxShadow: "outline" }}
-      _active={{ bg: "yellow.200" }}
+      variantColor="green"
       onClick={login}
       mx="2"
     >
@@ -97,7 +87,9 @@ const Navigation = () => {
     <Box
       d="flex"
       justifyContent="space-between"
-      bg="teal.400"
+      bg="white"
+      borderBottom="1px solid"
+      borderBottomColor="gray.200"
       w="100%"
       color="white"
       py={2}
@@ -111,10 +103,9 @@ const Navigation = () => {
           <Link href="/">
             <Box flex="0 0 50%" d="flex" alignItems="center" cursor="pointer">
               <Text
-                display={["none", "none", "block"]}
                 fontSize="2xl"
                 fontWeight="bold"
-                color="white"
+                color="black"
               >
                 TabGrab
               </Text>{" "}

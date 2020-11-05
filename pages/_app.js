@@ -4,11 +4,13 @@ import "isomorphic-unfetch";
 import App from "next/app";
 import Router from "next/router";
 import LoadingBar from "react-top-loading-bar";
-import auth0 from "../config/auth0";
-import Navigation from "../components/navigation/navigation";
-import { AuthProvider } from "../contexts/auth-provider";
-import fetcher from "../utils/fetcher";
+import auth0 from "config/auth0";
+import Navigation from "components/navigation/navigation";
+import { AuthProvider } from "contexts/auth-provider";
+import fetcher from "utils/fetcher";
+import colors from "utils/colors";
 
+console.log(colors);
 const CustomApp = ({ Component, pageProps, authenticated, user }) => {
   const ref = useRef(null);
 
@@ -73,12 +75,21 @@ CustomApp.getInitialProps = async (context) => {
         user: { ...session.user, is_admin: dbUser.users.is_admin },
       };
     }
-    
 
     return { ...appProps, authenticated: false, user: null };
   }
 
   return { ...appProps };
 };
+
+export function reportWebVitals({ id, name, label, value }) {
+  window.gtag("event", name, {
+    event_category:
+      label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
+    value: Math.round(name === "CLS" ? value * 1000 : value), // values must be integers
+    event_label: id, // id unique to current page load
+    non_interaction: true, // avoids affecting bounce rate.
+  });
+}
 
 export default CustomApp;

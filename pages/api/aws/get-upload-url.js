@@ -7,9 +7,9 @@ import { customAlphabet, urlAlphabet } from "nanoid";
 export default async function getUploadUrl(req, res) {
   try {
     AWS.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
+      accessKeyId: process.env.NEXT_AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_AWS_SECRET_ACCESS_KEY,
+      region: process.env.NEXT_AWS_REGION,
     });
 
     const URL_EXPIRATION_SECONDS = 300;

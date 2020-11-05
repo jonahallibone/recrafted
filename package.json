@@ -14,7 +14,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint pages/**/*.{js,jsx}",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,css,less,scss,vue,json,gql,md}\""
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,css,less,scss,vue,json,gql,md}\"",
+    "migration:production": "npx mikro-orm migration:up",
+    "migration:development": "NODE_ENV=development npx mikro-orm migration:up"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.16.0",
@@ -38,6 +40,7 @@
     "nanoid": "^3.1.16",
     "next": "9.5.5",
     "react": "16.14.0",
+    "react-confetti": "^6.0.0",
     "react-dom": "16.14.0",
     "react-feather": "^2.0.8",
     "react-top-loading-bar": "^2.0.1",

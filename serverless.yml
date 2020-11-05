@@ -1,6 +1,7 @@
-
 tabgrab:
-  component: "@sls-next/serverless-component@1.18.0"
+  component: "@sls-next/serverless-component@1.18.1-alpha.2"
   inputs:
     domain: "tabgrab.app"
     useServerlessTraceTarget: true
+    build:
+      cmd: "./run-migrations.sh"
