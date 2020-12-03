@@ -5,9 +5,11 @@ import {
   Property,
   Unique,
   Cascade,
+  ManyToMany,
 } from "@mikro-orm/core";
-import { BaseEntity } from "./BaseEntity";
-import { Recording } from "./Recording";
+import { BaseEntity } from "./BaseEntity";import { Project } from "./Project";
+;
+import { UserProject } from "./UserProject";
 
 @Entity()
 export class User extends BaseEntity {
@@ -23,11 +25,11 @@ export class User extends BaseEntity {
   email: string;
 
   @OneToMany({
-    entity: () => "Recording",
-    mappedBy: "user",
+    entity: () => "UserProject", 
+    mappedBy: 'user', //FK of the user
     cascade: [Cascade.PERSIST, Cascade.MERGE],
   })
-  recordings = new Collection<Recording>(this);
+  projects = new Collection<UserProject>(this);
 
   constructor(name: string, email: string, sub: string) {
     super();

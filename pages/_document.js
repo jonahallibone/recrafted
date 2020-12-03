@@ -1,23 +1,11 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import { extractCritical } from "emotion-server";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
-    const styles = extractCritical(initialProps.html);
     return {
       ...initialProps,
-      styles: (
-        <>
-          {initialProps.styles}
-          <style
-            data-emotion-css={styles.ids.join(" ")}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: styles.css }}
-          />
-        </>
-      ),
     };
   }
 
@@ -40,7 +28,6 @@ export default class MyDocument extends Document {
             __html: `window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
-
                     gtag('config', 'G-RZZL7C4F5T');`,
           }}
         />

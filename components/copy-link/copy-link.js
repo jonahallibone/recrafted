@@ -10,7 +10,7 @@ import {
   Text,
   useClipboard,
   useToast,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 const CopyLink = ({ value }) => {
   const { onCopy } = useClipboard(value);

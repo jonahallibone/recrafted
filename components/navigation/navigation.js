@@ -2,19 +2,19 @@ import React, { useCallback } from "react";
 import {
   Avatar,
   Box,
+  Container,
   Flex,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  Icon,
   Button,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { LogOut } from "react-feather";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useAuthProvider } from "../../contexts/auth-provider";
-import Container from "../container/container";
 
 const Navigation = () => {
   const { auth, logout, login } = useAuthProvider();
@@ -30,26 +30,35 @@ const Navigation = () => {
     <Menu>
       <MenuButton
         as={Button}
-        bg="blue.700"
+        bg="gray.200"
         transition="all 0.2s"
         rounded="md"
-        _hover={{ bg: "blue.500" }}
-        _expanded={{ bg: "blue.600" }}
+        _hover={{ bg: "gray.300" }}
+        _expanded={{ bg: "gray.400" }}
         _focus={{ outline: 0, boxShadow: "outline" }}
-        _active={{ bg: "blue.400" }}
+        _active={{ bg: "gray.400" }}
+        rightIcon={<ChevronDownIcon />}
+        color="gray.800"
       >
-        <MemoizedAvatar />
-        <Flex>
-          <Text display={["none", "none", "block"]}>{auth.user.name}</Text> <Icon name="chevron-down" ml="2" />
+        <Flex align="center">
+          <MemoizedAvatar />
+          {auth.user.name}
         </Flex>
       </MenuButton>
-      <MenuList bg="blue.600">
+      <MenuList bg="gray.200">
         <MenuItem
-          _focus={{ bg: "blue.500" }}
+          _focus={{ bg: "gray.300" }}
           fontWeight="medium"
           onClick={logout}
+          color="gray.700"
         >
-          <Box as={LogOut} color="white" size="16px" mr="2" strokeWidth={2.5} />{" "}
+          <Box
+            as={LogOut}
+            color="gray.700"
+            size="16px"
+            mr="2"
+            strokeWidth={2.5}
+          />{" "}
           Logout
         </MenuItem>
       </MenuList>
@@ -57,21 +66,13 @@ const Navigation = () => {
   );
 
   const LoginButton = () => (
-    <Button
-      variantColor="cyan"
-      onClick={login}
-      mx={2}
-    >
+    <Button colorScheme="cyan" onClick={login} mx={2}>
       Login
     </Button>
   );
 
   const SignUpButton = () => (
-    <Button
-      variantColor="green"
-      onClick={login}
-      mx="2"
-    >
+    <Button colorScheme="green" onClick={login} mx="2">
       Sign Up
     </Button>
   );
@@ -96,18 +97,14 @@ const Navigation = () => {
       position="fixed"
       top="0"
       left="0"
-      zIndex="999999"
+      zIndex="99"
     >
-      <Container px={4}>
+      <Container maxWidth="xl">
         <Flex>
           <Link href="/">
             <Box flex="0 0 50%" d="flex" alignItems="center" cursor="pointer">
-              <Text
-                fontSize="2xl"
-                fontWeight="bold"
-                color="black"
-              >
-                TabGrab
+              <Text fontSize="2xl" fontWeight="bold" color="black">
+                recraft
               </Text>{" "}
             </Box>
           </Link>

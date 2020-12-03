@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { ThemeProvider, CSSReset, theme } from "@chakra-ui/core";
+import { ChakraProvider, theme } from "@chakra-ui/react";
 import "isomorphic-unfetch";
 import App from "next/app";
 import Router from "next/router";
@@ -8,9 +8,7 @@ import auth0 from "config/auth0";
 import Navigation from "components/navigation/navigation";
 import { AuthProvider } from "contexts/auth-provider";
 import fetcher from "utils/fetcher";
-import colors from "utils/colors";
 
-console.log(colors);
 const CustomApp = ({ Component, pageProps, authenticated, user }) => {
   const ref = useRef(null);
 
@@ -28,7 +26,7 @@ const CustomApp = ({ Component, pageProps, authenticated, user }) => {
 
   return (
     <AuthProvider authenticated={authenticated} user={user}>
-      <ThemeProvider
+      <ChakraProvider
         theme={{
           ...theme,
           fonts: {
@@ -38,11 +36,10 @@ const CustomApp = ({ Component, pageProps, authenticated, user }) => {
           },
         }}
       >
-        <CSSReset />
-        <LoadingBar color="#8AD3E0" ref={ref} />
+        <LoadingBar color="#4299E1" ref={ref} />
         <Navigation />
         <Component {...pageProps} />
-      </ThemeProvider>
+      </ChakraProvider>
     </AuthProvider>
   );
 };
@@ -55,6 +52,7 @@ CustomApp.getInitialProps = async (context) => {
     const session = await auth0.getSession(req);
 
     if (session && session.user) {
+      console.log(session.user);
       const baseUrl = req ? `http://${req.headers.host}` : "";
       const dbUser = await fetcher(`${baseUrl}/api/profile`, {
         method: "POST",
@@ -75,8 +73,15 @@ CustomApp.getInitialProps = async (context) => {
         user: { ...session.user, is_admin: dbUser.users.is_admin },
       };
     }
+    /* TODO */
+    // Make this redirect to login with a redirect to a url
+    // If no session at all, allow redirection of the homepage
+    // return { ...appProps, authenticated: false, user: null };
+    // ^^^^
+    res.writeHead(302, { Location: "/api/login" });
+    return res.end();
 
-    return { ...appProps, authenticated: false, user: null };
+    
   }
 
   return { ...appProps };

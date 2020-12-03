@@ -2,10 +2,16 @@ import { User } from "../entities/User";
 import { Options } from "@mikro-orm/core";
 import dotenv from "dotenv";
 import { BaseEntity } from "../entities/BaseEntity";
-import { Recording } from "../entities/Recording";
+import { Project } from "../entities/Project";
+import { Revision } from "../entities/Revision";
+import { File } from "../entities/File";
+import { UserProject } from "../entities/UserProject";
+import { Asset } from "../entities/Asset";
+import { Comment } from "../entities/Comment";
 
 dotenv.config({
-  path: process.env.NODE_ENV === "development" ? ".env" : ".env.production.local",
+  path:
+    process.env.NODE_ENV === "development" ? ".env" : ".env.production.local",
 });
 
 const config: Options = {
@@ -15,7 +21,7 @@ const config: Options = {
   port: Number(process.env.MYSQL_PORT),
   user: process.env.MYSQL_USERNAME,
   password: process.env.MYSQL_PASSWORD,
-  entities: [BaseEntity, User, Recording],
+  entities: [BaseEntity, Project, User, Revision, File, Comment, UserProject, Asset],
   discovery: { disableDynamicFileAccess: false },
   debug: process.env.NODE_ENV === "development",
 };
