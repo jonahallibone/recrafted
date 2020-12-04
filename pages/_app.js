@@ -53,7 +53,7 @@ CustomApp.getInitialProps = async (context) => {
 
     if (session && session.user) {
       console.log(session.user);
-      const baseUrl = req ? `http://${req.headers.host}` : "";
+      const baseUrl = process.env.BASE_URL;
       const dbUser = await fetcher(`${baseUrl}/api/profile`, {
         method: "POST",
         headers: {

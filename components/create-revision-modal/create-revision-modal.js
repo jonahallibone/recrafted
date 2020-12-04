@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -12,7 +12,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { mutate } from "swr";
-import fetcher from "utils/fetcher";
 import { useDropzone } from "react-dropzone";
 import uploadNewAsset, { uploadFile } from "utils/upload-new-asset";
 
@@ -23,7 +22,6 @@ const CreateRevisionModal = ({
   assetName,
   projectId,
 }) => {
-  const [loading, setLoading] = useState(false);
   const [revisionFile, setRevisionFile] = useState({
     file: null,
     previewURL: null,
@@ -41,6 +39,7 @@ const CreateRevisionModal = ({
 
   const handleUploadChange = useCallback(({ prevState, progress, size }) => {
     const percentage = Math.round((progress / size) * 100);
+
     if (percentage < 100) {
       return { ...prevState, progress: percentage, isUploading: true };
     }
@@ -61,18 +60,19 @@ const CreateRevisionModal = ({
       });
 
       const { size } = file;
+
       await uploadFile({
         uploadURL,
         file,
         onProgressChange: (progress) =>
-          setUploadState((state) =>
-            handleUploadChange({
+          setUploadState((state) => ({
+            status: "Uploading",
+            ...handleUploadChange({
               ...state,
-              status: "Uploading",
               progress,
               size,
-            })
-          ),
+            }),
+          })),
       });
     } catch (error) {
       console.error(error);
@@ -111,15 +111,17 @@ const CreateRevisionModal = ({
               </Box>
             )}
             {revisionFile.previewURL && (
-              <Box p="4" border="1px solid" borderColor="gray.200" rounded="md">
+              <Box
+                p="4"
+                border="1px solid"
+                borderColor="gray.200"
+                rounded="md"
+                maxW="lg"
+              >
                 <Image src={revisionFile.previewURL} />
               </Box>
             )}
-            <Button
-              isLoading={loading}
-              colorScheme="teal"
-              onClick={uploadRevision}
-            >
+            <Button colorScheme="teal" onClick={uploadRevision} disabled={!uploadState?.status}>
               {!uploadState?.status
                 ? "Create New Revision"
                 : `${uploadState.status} ${uploadState.progress || ""}%`}
