@@ -43,26 +43,24 @@ const Project = () => {
           requestKey: "asset",
         });
 
-        mutate(`/api/project/${projectId}`, (prevData) => {
-          return {
-            ...prevData,
-            userProject: {
-              ...prevData.userProject,
-              project: {
-                ...prevData.userProject.project,
-                assets: [
-                  {
-                    isReadyToUpload: true,
-                    uploadURL,
-                    file: uploadFile.file,
-                    ...createdAsset,
-                  },
-                  ...prevData.userProject.project.assets,
-                ],
-              },
+        mutate(`/api/project/${projectId}`, (prevData) => ({
+          ...prevData,
+          userProject: {
+            ...prevData.userProject,
+            project: {
+              ...prevData.userProject.project,
+              assets: [
+                {
+                  isReadyToUpload: true,
+                  uploadURL,
+                  file: uploadFile.file,
+                  ...createdAsset,
+                },
+                ...prevData.userProject.project.assets,
+              ],
             },
-          };
-        });
+          },
+        }));
       });
     },
     [projectId]
@@ -76,7 +74,7 @@ const Project = () => {
   return (
     <Layout nopadding>
       <Box borderBottom="1px solid" borderColor="gray.200" py="3">
-        <Container maxW="xl">
+        <Container maxW="100%">
           <SimpleGrid columns="2" justify="center">
             <Box as={Flex} alignItems="center">
               <Heading size="md" fontWeight="bold">
@@ -96,7 +94,7 @@ const Project = () => {
         </Container>
       </Box>
       <Container
-        maxW="xl"
+        maxW="100%"
         pb="10"
         {...getRootProps()}
         _focus={{ outline: "none" }}

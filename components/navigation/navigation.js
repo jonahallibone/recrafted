@@ -10,13 +10,19 @@ import {
   MenuItem,
   Button,
   Text,
+  Grid,
+  GridItem,
+  Stack,
+  Icon,
+  Badge,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { LogOut } from "react-feather";
+import { LogOut, Grid as GridIcon, Bell, File } from "react-feather";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { useAuthProvider } from "../../contexts/auth-provider";
+import { useAuthProvider } from "contexts/auth-provider";
+import SidebarLink from "components/sidebar-link/sidebar-link";
 
-const Navigation = () => {
+const Navigation = ({ children }) => {
   const { auth, logout, login } = useAuthProvider();
 
   const MemoizedAvatar = useCallback(
@@ -85,35 +91,75 @@ const Navigation = () => {
   );
 
   return (
-    <Box
-      d="flex"
-      justifyContent="space-between"
-      bg="white"
-      borderBottom="1px solid"
-      borderBottomColor="gray.200"
-      w="100%"
-      color="white"
-      py={2}
-      position="fixed"
-      top="0"
-      left="0"
-      zIndex="99"
-    >
-      <Container maxWidth="xl">
-        <Flex>
-          <Link href="/">
-            <Box flex="0 0 50%" d="flex" alignItems="center" cursor="pointer">
-              <Text fontSize="2xl" fontWeight="bold" color="black">
-                recraft
-              </Text>{" "}
+    <Container maxWidth="100%" px="0">
+      <Grid templateColumns="250px 1fr" h="100vh">
+        <GridItem bg="black">
+          <Stack>
+            <Box
+              d="flex"
+              justifyContent="space-between"
+              w="100%"
+              color="white"
+              py={4}
+              top="0"
+              left="0"
+              zIndex="99"
+              px="4"
+            >
+              <Link href="/">
+                <Box
+                  flex="0 0 50%"
+                  d="flex"
+                  alignItems="center"
+                  cursor="pointer"
+                >
+                  <Text fontSize="2xl" fontWeight="bold" color="white">
+                    recraft
+                  </Text>
+                </Box>
+              </Link>
             </Box>
-          </Link>
-          <Box flex="0 0 50%" d="flex" justifyContent="flex-end">
-            {auth.authenticated ? <UserMenu /> : <LoginOrSignUp />}
+            <Box>
+              <Stack direction="column">
+                <SidebarLink href="/">
+                  <Icon as={GridIcon} mr="4" /> Projects
+                </SidebarLink>
+                <SidebarLink href="/alerts">
+                  <Icon as={Bell} mr="4" /> Alerts <Badge ml="4" colorScheme="red">0</Badge>
+                </SidebarLink>
+                <SidebarLink href="/assets">
+                  <Icon as={File} mr="4" /> Assets
+                </SidebarLink>
+              </Stack>
+            </Box>
+          </Stack>
+        </GridItem>
+        <GridItem>
+          <Box
+            d="flex"
+            justifyContent="space-between"
+            bg="white"
+            w="100%"
+            color="white"
+            py={4}
+            top="0"
+            left="0"
+            zIndex="99"
+          >
+            <Container maxW="100%">
+              <Flex justifyContent="flex-end">
+                <Box flex="0 0 50%" d="flex" justifyContent="flex-end">
+                  {auth.authenticated ? <UserMenu /> : <LoginOrSignUp />}
+                </Box>
+              </Flex>
+            </Container>
           </Box>
-        </Flex>
-      </Container>
-    </Box>
+          <Box maxH="calc(100vh - 72px)" overflowY="scroll">
+            {children}
+          </Box>
+        </GridItem>
+      </Grid>
+    </Container>
   );
 };
 

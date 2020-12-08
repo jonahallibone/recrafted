@@ -1,5 +1,5 @@
 recraft:
-  component: "@sls-next/serverless-component@1.19.0-alpha.14"
+  component: "@sls-next/serverless-component@1.19.0-alpha.16"
   inputs:
     domain: "tabgrab.app"
     useServerlessTraceTarget: true
