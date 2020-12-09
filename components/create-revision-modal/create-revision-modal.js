@@ -11,7 +11,6 @@ import {
   Box,
   Image,
 } from "@chakra-ui/react";
-import { mutate } from "swr";
 import { useDropzone } from "react-dropzone";
 import uploadNewAsset, { uploadFile } from "utils/upload-new-asset";
 

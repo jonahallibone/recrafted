@@ -2,12 +2,17 @@
 import React from "react";
 import {
   AspectRatio,
+  Avatar,
+  AvatarGroup,
   Box,
   Center,
   Container,
   Heading,
   SimpleGrid,
   Stack,
+  Stat,
+  StatLabel,
+  StatNumber,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -24,18 +29,15 @@ const Home = () => {
 
   return (
     <Layout>
-      <Container maxW="100%" mt="4">
+      <Container maxW="100%" mt="4" p="8">
         <Box mb="8">
           <Heading size="md">Projects</Heading>
         </Box>
         <SimpleGrid columns={[1, 2, 3, 4, 6]} spacing="10">
-          <CreateProjectModal
-            onClose={onClose}
-            isOpen={isOpen}
-          />
+          <CreateProjectModal onClose={onClose} isOpen={isOpen} />
           <CreateButton onClick={onOpen} />
-          {data?.projects.map((project) => (
-            <Link href={`/project/${project.project.id}`}>
+          {data?.projects.map((details) => (
+            <Link href={`/project/${details.project.id}`}>
               <Stack
                 direction="column"
                 rounded="xl"
@@ -64,14 +66,36 @@ const Home = () => {
               >
                 <AspectRatio maxW="100%" ratio={1 / 1}>
                   <Box
-                    bg={project.project.thumbnail_color ?? "green.500"}
-                    _groupHover={{ borderColor: "white" }}
+                    p="4"
+                    border="1px solid"
+                    borderColor="gray.200"
                     rounded="xl"
-                    boxShadow="0 3px 0 0 #48BB78"
-                  />
+                    boxShadow="0 2px 7px 0 rgba(0,0,0,0.1)"
+                    bg="white"
+                  >
+                    <Stack h="100%" w="100%" justify="start" justifyContent="space-between">
+                      <AvatarGroup size="sm" max={3}>
+                        {details.project.user_project.map((projectUser) => (
+                          <Avatar name={projectUser.user.name} />
+                        ))}
+                      </AvatarGroup>
+                      <Box mt="auto">
+                        <Stack>
+                          <Text fontSize="sm" color="gray.400" fontWeight="bold">
+                            Last Updated
+                          </Text>
+                          <Text fontSize="sm" fontWeight="bold" mt="0">
+                            {new Date(
+                              details.project.updatedAt
+                            ).toLocaleDateString()}
+                          </Text>
+                        </Stack>
+                      </Box>
+                    </Stack>
+                  </Box>
                 </AspectRatio>
                 <Text fontWeight="bold" position="relative" zIndex="2">
-                  <Center>{project.project.project_name}</Center>
+                  <Center>{details.project.project_name}</Center>
                 </Text>
               </Stack>
             </Link>

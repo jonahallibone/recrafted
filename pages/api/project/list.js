@@ -3,20 +3,36 @@ import { QueryOrder } from "@mikro-orm/core";
 import startOrm from "config/initalize-database";
 import auth0 from "config/auth0";
 import { UserProject } from "entities/UserProject";
+import Prisma from "config/prisma";
 
 export default auth0.requireAuthentication(async (req, res) => {
   if (req.method === "GET") {
-    const orm = await startOrm();
+    // const orm = await startOrm();
 
     const session = await auth0.getSession(req);
     const { user: sessionUser } = session;
 
-    const projects = await orm.em.find(
-      UserProject,
-      { user: { email: sessionUser.email } },
-      ["user", "project", "project.users", "project.assets"],
-      { createdAt: QueryOrder.DESC }
-    );
+    // const projects = await orm.em.find(
+    //   UserProject,
+    //   { user: { email: sessionUser.email } },
+    //   ["user", "project", "project.users", "project.assets"],
+    //   { createdAt: QueryOrder.DESC }
+    // );
+
+    
+
+    const projects = await Prisma.user_project.findMany({
+      where: { user: { email: sessionUser.email } },
+      include: {
+        user: true,
+        project: {
+          include: {
+            user_project: true,
+            asset: true,
+          },
+        },
+      },
+    });
 
     res.end(JSON.stringify({ projects }));
   } else {

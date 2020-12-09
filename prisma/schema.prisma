@@ -1,11 +1,114 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model asset {
+  id         Int        @id @default(autoincrement())
+  created_at DateTime
+  updated_at DateTime
+  type       String
+  status     String
+  project_id Int
+  name       String
+  project    project    @relation(fields: [project_id], references: [id])
+  revision   revision[]
+
+  @@index([project_id], name: "asset_project_id_index")
+}
+
+model base_entity {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime
+  updated_at DateTime
+}
+
+model comment {
+  id            Int      @id @default(autoincrement())
+  created_at    DateTime
+  updated_at    DateTime
+  description   String
+  x_coordinate  Int?
+  y_coordinate  Int
+  is_annotation Boolean
+  author        Json
+  revision_id   Int
+  revision      revision @relation(fields: [revision_id], references: [id])
+
+  @@index([revision_id], name: "comment_revision_id_index")
+}
+
+model file {
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime
+  updated_at     DateTime
+  src            String
+  is_original    Boolean
+  revision_id    Int
+  file_size      Int
+  mime_type      String
+  file_extension String
+  height         Int?
+  width          Int?
+  revision       revision @relation(fields: [revision_id], references: [id])
+
+  @@index([revision_id], name: "file_revision_id_index")
+}
+
+model mikro_orm_migrations {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  executed_at DateTime? @default(now())
+}
+
+model project {
+  id              Int           @id @default(autoincrement())
+  created_at      DateTime
+  updated_at      DateTime
+  project_name    String
+  thumbnail_color String
+  asset           asset[]
+  user_project    user_project[]
+}
+
+model revision {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime
+  updated_at DateTime
+  version    Int
+  asset_id   Int
+  asset      asset     @relation(fields: [asset_id], references: [id])
+  comment    comment[]
+  file       file[]
+
+  @@index([asset_id], name: "revision_asset_id_index")
+}
+
+model user {
+  id           Int            @id @default(autoincrement())
+  created_at   DateTime
+  updated_at   DateTime
+  name         String
+  sub          String         @unique
+  email        String         @unique
+  user_project user_project[]
+}
+
+model user_project {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime
+  updated_at DateTime
+  user_id    Int?
+  project_id Int?     @unique
+  is_active  Boolean
+  is_author  Boolean
+  project    project? @relation(fields: [project_id], references: [id])
+  user       user?    @relation(fields: [user_id], references: [id])
+
+  @@index([project_id], name: "user_project_project_id_index")
+  @@index([user_id], name: "user_project_user_id_index")
 }
