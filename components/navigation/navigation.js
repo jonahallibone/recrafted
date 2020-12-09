@@ -145,6 +145,7 @@ const Navigation = ({ children }) => {
             top="0"
             left="0"
             zIndex="99"
+            borderBottom="1px solid #DDD"
           >
             <Container maxW="100%">
               <Flex justifyContent="flex-end">

@@ -24,7 +24,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <Container maxW="100%">
+      <Container maxW="100%" mt="4">
         <Box mb="8">
           <Heading size="md">Projects</Heading>
         </Box>

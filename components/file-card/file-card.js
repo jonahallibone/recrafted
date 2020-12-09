@@ -78,11 +78,10 @@ const FileCard = ({ isLoading, asset, projectId }) => {
             <Box height="100%" position="absolute" rounded="md" bg="gray.100">
               {!uploadState.isUploading && (
                 <Image
-                  // unoptimized
                   src={`https://d2iutcxiokgxnt.cloudfront.net/${asset.revisions[0]?.files[0]?.src}`}
-                  height={500}
-                  width={500}
-                  layout="intrinsic"
+                  // height={500}
+                  // width={500}
+                  layout="fill"
                 />
               )}
               {uploadState.isUploading && (
