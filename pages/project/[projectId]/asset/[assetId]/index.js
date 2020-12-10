@@ -25,7 +25,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
-import { Layers, MoreHorizontal, Plus, Upload, UserPlus } from "react-feather";
+import { Layers, MoreHorizontal } from "react-feather";
 import Layout from "components/layout/layout";
 import { ChevronDownIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { useAuthProvider } from "contexts/auth-provider";
@@ -56,13 +56,12 @@ const Asset = () => {
         borderBottom="1px solid"
         borderColor="gray.200"
         py="3"
-        position="fixed"
         width="100%"
         zIndex="9"
         bg="white"
         top="57px"
       >
-        <Container maxW="xl">
+        <Container maxW="100%">
           <SimpleGrid columns="2" justify="center">
             <Box as={Flex} alignItems="center">
               <Link href={`/project/${projectId}`}>
@@ -111,14 +110,15 @@ const Asset = () => {
           </SimpleGrid>
         </Container>
       </Box>
-      <Box mt="122px">
-        <Container maxW="xl">
-          <Grid templateColumns="repeat(5, 1fr)" h="calc(100vh - 122px)">
-            <GridItem colSpan={4}>
+      <Box>
+        <Container maxW="100%" p="0">
+          <Grid templateColumns="repeat(5, 1fr)" height="calc(100vh - 138px)" overflow="hidden">
+            <GridItem colSpan={4} maxHeight="100%" overflowY="auto" maxH="calc(100vh - 138px)">
               <Stack>
                 {data ? (
                   <Image
                     src={`https://d2iutcxiokgxnt.cloudfront.net/${data.asset.revisions[0].files[0].src}`}
+                    objectFit="contain"
                   />
                 ) : (
                   <Skeleton h="100%" w="100%" />

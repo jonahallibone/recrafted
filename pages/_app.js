@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { ChakraProvider, theme } from "@chakra-ui/react";
+import { ChakraProvider, Grid, GridItem, theme } from "@chakra-ui/react";
 import "isomorphic-unfetch";
 import App from "next/app";
 import Router from "next/router";
@@ -37,8 +37,9 @@ const CustomApp = ({ Component, pageProps, authenticated, user }) => {
         }}
       >
         <LoadingBar color="#4299E1" ref={ref} />
-        <Navigation />
-        <Component {...pageProps} />
+        <Navigation>
+          <Component {...pageProps} />
+        </Navigation>
       </ChakraProvider>
     </AuthProvider>
   );
@@ -53,7 +54,7 @@ CustomApp.getInitialProps = async (context) => {
 
     if (session && session.user) {
       console.log(session.user);
-      const baseUrl = req ? `http://${req.headers.host}` : "";
+      const baseUrl = process.env.BASE_URL;
       const dbUser = await fetcher(`${baseUrl}/api/profile`, {
         method: "POST",
         headers: {
@@ -80,8 +81,6 @@ CustomApp.getInitialProps = async (context) => {
     // ^^^^
     res.writeHead(302, { Location: "/api/login" });
     return res.end();
-
-    
   }
 
   return { ...appProps };

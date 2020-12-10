@@ -1,0 +1,103 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model asset {
+  id         Int        @id @default(autoincrement())
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt 
+  type       String
+  status     String
+  project_id Int
+  name       String
+  project    project    @relation(fields: [project_id], references: [id])
+  revisions  revision[]
+
+  @@index([project_id], name: "asset_project_id_index")
+}
+
+model comment {
+  id            Int      @id @default(autoincrement())
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt 
+  description   String
+  x_coordinate  Int?
+  y_coordinate  Int
+  is_annotation Boolean
+  author        Json
+  revision_id   Int
+  revision      revision @relation(fields: [revision_id], references: [id])
+
+  @@index([revision_id], name: "comment_revision_id_index")
+}
+
+model file {
+  id             Int      @id @default(autoincrement())
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt 
+  src            String
+  is_original    Boolean
+  revision_id    Int
+  file_size      Int
+  mime_type      String
+  file_extension String
+  height         Int?
+  width          Int?
+  revision       revision @relation(fields: [revision_id], references: [id])
+
+  @@index([revision_id], name: "file_revision_id_index")
+}
+
+model project {
+  id              Int            @id @default(autoincrement())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt 
+  project_name    String
+  thumbnail_color String
+  assets          asset[]
+  user_projects   user_project[]
+}
+
+model revision {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt 
+  version    Int
+  asset_id   Int
+  asset      asset     @relation(fields: [asset_id], references: [id])
+  comments    comment[]
+  files       file[]
+
+  @@index([asset_id], name: "revision_asset_id_index")
+}
+
+model user {
+  id           Int            @id @default(autoincrement())
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt 
+  name         String
+  sub          String         @unique
+  email        String         @unique
+  user_project user_project[]
+}
+
+model user_project {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt 
+  user_id    Int?
+  project_id Int?     @unique
+  is_active  Boolean
+  is_author  Boolean
+  project    project? @relation(fields: [project_id], references: [id])
+  user       user?    @relation(fields: [user_id], references: [id])
+
+  @@index([project_id], name: "user_project_project_id_index")
+  @@index([user_id], name: "user_project_user_id_index")
+}

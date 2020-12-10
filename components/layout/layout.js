@@ -1,12 +1,9 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
 import Head from "next/head";
 
 const Layout = ({ nopadding = false, noMinH = false, children }) => (
   <Box
-    minHeight={noMinH ? "calc(100vh - 57px)" : 0}
-    mt="56px"
-    pt={nopadding ? 0 : 4}
     boxSizing={nopadding ? "content-box" : "border-box"}
   >
     <Head>

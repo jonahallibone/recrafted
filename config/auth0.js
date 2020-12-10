@@ -8,11 +8,11 @@ export default initAuth0({
   redirectUri:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/callback"
-      : "https://dashboard.aircards.co/api/callback",
+      : "https://tabgrab.app/api/callback",
   postLogoutRedirectUri:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/"
-      : "https://dashboard.aircards.co/",
+      : "https://tabgrab.app/",
   session: {
     // The secret used to encrypt the cookie.
     cookieSecret: process.env.COOKIE_SECRET,
