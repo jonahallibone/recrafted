@@ -75,7 +75,7 @@ const Home = () => {
                   >
                     <Stack h="100%" w="100%" justify="start" justifyContent="space-between">
                       <AvatarGroup size="sm" max={3}>
-                        {details.project.user_project.map((projectUser) => (
+                        {details.project.user_projects.map((projectUser) => (
                           <Avatar name={projectUser.user.name} />
                         ))}
                       </AvatarGroup>
@@ -86,7 +86,7 @@ const Home = () => {
                           </Text>
                           <Text fontSize="sm" fontWeight="bold" mt="0">
                             {new Date(
-                              details.project.updatedAt
+                              details.project.updated_at
                             ).toLocaleDateString()}
                           </Text>
                         </Stack>

@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start && npx prisma generate --watch",
     "lint": "eslint pages/**/*.{js,jsx}",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,css,less,scss,vue,json,gql,md}\"",
     "migration:production": "npx mikro-orm migration:up",
@@ -40,10 +40,12 @@
     "aws-sdk": "^2.805.0",
     "axios": "^0.21.0",
     "babel-plugin-react-css-modules": "^5.2.6",
+    "copy-webpack-plugin": "^6.4.0",
     "emotion": "^11.0.0",
     "emotion-server": "^11.0.0",
     "emotion-theming": "^11.0.0",
     "framer-motion": "^2.9.5",
+    "fs-extra": "^9.0.1",
     "i": "^0.3.6",
     "isomorphic-unfetch": "^3.1.0",
     "nanoid": "^3.1.20",
@@ -57,7 +59,8 @@
     "react-top-loading-bar": "^2.0.1",
     "reflect-metadata": "^0.1.13",
     "swr": "^0.3.9",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "webpack-permissions-plugin": "^1.0.7"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.12.1",

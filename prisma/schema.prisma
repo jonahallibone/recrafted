@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
@@ -9,28 +10,22 @@ datasource db {
 
 model asset {
   id         Int        @id @default(autoincrement())
-  created_at DateTime
-  updated_at DateTime
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt 
   type       String
   status     String
   project_id Int
   name       String
   project    project    @relation(fields: [project_id], references: [id])
-  revision   revision[]
+  revisions  revision[]
 
   @@index([project_id], name: "asset_project_id_index")
 }
 
-model base_entity {
-  id         Int      @id @default(autoincrement())
-  created_at DateTime
-  updated_at DateTime
-}
-
 model comment {
   id            Int      @id @default(autoincrement())
-  created_at    DateTime
-  updated_at    DateTime
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt 
   description   String
   x_coordinate  Int?
   y_coordinate  Int
@@ -44,8 +39,8 @@ model comment {
 
 model file {
   id             Int      @id @default(autoincrement())
-  created_at     DateTime
-  updated_at     DateTime
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt 
   src            String
   is_original    Boolean
   revision_id    Int
@@ -59,39 +54,33 @@ model file {
   @@index([revision_id], name: "file_revision_id_index")
 }
 
-model mikro_orm_migrations {
-  id          Int       @id @default(autoincrement())
-  name        String?
-  executed_at DateTime? @default(now())
-}
-
 model project {
-  id              Int           @id @default(autoincrement())
-  created_at      DateTime
-  updated_at      DateTime
+  id              Int            @id @default(autoincrement())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt 
   project_name    String
   thumbnail_color String
-  asset           asset[]
-  user_project    user_project[]
+  assets          asset[]
+  user_projects   user_project[]
 }
 
 model revision {
   id         Int       @id @default(autoincrement())
-  created_at DateTime
-  updated_at DateTime
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt 
   version    Int
   asset_id   Int
   asset      asset     @relation(fields: [asset_id], references: [id])
-  comment    comment[]
-  file       file[]
+  comments    comment[]
+  files       file[]
 
   @@index([asset_id], name: "revision_asset_id_index")
 }
 
 model user {
   id           Int            @id @default(autoincrement())
-  created_at   DateTime
-  updated_at   DateTime
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt 
   name         String
   sub          String         @unique
   email        String         @unique
@@ -100,8 +89,8 @@ model user {
 
 model user_project {
   id         Int      @id @default(autoincrement())
-  created_at DateTime
-  updated_at DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt 
   user_id    Int?
   project_id Int?     @unique
   is_active  Boolean

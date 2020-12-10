@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import NextLink from "next/link";
-import Image from "next/image";
 import {
   AspectRatio,
   Badge,
@@ -10,6 +9,7 @@ import {
   Heading,
   Skeleton,
   Stack,
+  Image
 } from "@chakra-ui/react";
 import { uploadFile } from "utils/upload-new-asset";
 

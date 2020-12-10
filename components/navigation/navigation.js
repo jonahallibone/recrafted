@@ -155,7 +155,7 @@ const Navigation = ({ children }) => {
               </Flex>
             </Container>
           </Box>
-          <Box maxH="calc(100vh - 73px)" overflowY="scroll">
+          <Box maxH="calc(100vh - 73px)" overflowY="auto">
             {children}
           </Box>
         </GridItem>

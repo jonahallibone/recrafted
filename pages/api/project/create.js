@@ -1,9 +1,5 @@
-import "reflect-metadata";
-import startOrm from "config/initalize-database";
 import auth0 from "config/auth0";
-import { User } from "entities/User";
-import { Project } from "entities/Project";
-import { UserProject } from "entities/UserProject";
+import Prisma from "config/prisma";
 
 export default auth0.requireAuthentication(async (req, res) => {
   if (req.method === "PUT") {
@@ -13,27 +9,41 @@ export default auth0.requireAuthentication(async (req, res) => {
       },
     } = req;
 
-    const orm = await startOrm();
-
     const session = await auth0.getSession(req);
     const { user: sessionUser } = session;
 
-    const user = await orm.em.findOne(User, { email: sessionUser.email });
+    const newProject = await Prisma.user_project.create({
+      data: {
+        user: {
+          connect: {
+            email: sessionUser.email,
+          },
+        },
+        project: {
+          create: {
+            project_name: name,
+            thumbnail_color: color,
+          },
+        },
+        is_author: true,
+        is_active: true,
+      },
+    });
 
-    const project = new Project(name, color);
-    const userProject = new UserProject();
-    userProject.user = user;
-    userProject.project = project;
-    userProject.is_author = true;
-
-    await orm.em.persistAndFlush([userProject]);
-
-    await orm.em.findOne(UserProject, { id: userProject.id }, [
-      "user",
-      "project",
-      "project.users",
-      "project.assets",
-    ]);
+    const userProject = await Prisma.user_project.findFirst({
+      where: { id: newProject.id },
+      include: {
+        project: {
+          include: {
+            user_projects: {
+              include: {
+                user: true
+              }
+            },
+          }
+        },
+      },
+    });
 
     res.end(JSON.stringify({ userProject }));
   } else {

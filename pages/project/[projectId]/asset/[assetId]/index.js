@@ -111,9 +111,9 @@ const Asset = () => {
         </Container>
       </Box>
       <Box>
-        <Container maxW="100%">
-          <Grid templateColumns="repeat(5, 1fr)" height="calc(100vh - 137px)">
-            <GridItem colSpan={4} maxHeight="100%" oveflowY="auto">
+        <Container maxW="100%" p="0">
+          <Grid templateColumns="repeat(5, 1fr)" height="calc(100vh - 138px)" overflow="hidden">
+            <GridItem colSpan={4} maxHeight="100%" overflowY="auto" maxH="calc(100vh - 138px)">
               <Stack>
                 {data ? (
                   <Image
