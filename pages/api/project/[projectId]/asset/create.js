@@ -1,12 +1,7 @@
-import "reflect-metadata";
 import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
-import startOrm from "config/initalize-database";
 import auth0 from "config/auth0";
-import { UserProject } from "entities/UserProject";
-import { Asset } from "entities/Asset";
-import { Revision } from "entities/Revision";
-import { File } from "entities/File";
+import Prisma from "config/prisma";
 
 export default auth0.requireAuthentication(async (req, res) => {
   if (req.method === "PUT") {
@@ -15,19 +10,32 @@ export default auth0.requireAuthentication(async (req, res) => {
       body: { asset },
     } = req;
 
-    const orm = await startOrm();
-
     const session = await auth0.getSession(req);
     const { user: sessionUser } = session;
 
-    const userProject = await orm.em.findOne(
-      UserProject,
-      {
+    const userProject = await Prisma.user_project.findFirst({
+      where: {
+        project_id: Number(projectId),
         user: { email: sessionUser.email },
-        project: { id: projectId },
       },
-      ["project"]
-    );
+      include: {
+        user: true,
+        project: {
+          include: {
+            assets: {
+              include: {
+                revisions: {
+                  include: {
+                    files: true,
+                  },
+                },
+              },
+            },
+            user_projects: true,
+          },
+        },
+      },
+    });
 
     if (userProject) {
       AWS.config.update({
@@ -49,34 +57,77 @@ export default auth0.requireAuthentication(async (req, res) => {
         ContentType: asset.mimeType,
       };
 
-      const newAsset = new Asset({
-        name: asset.name,
-        status: "Unapproved",
-        type: asset.mimeType,
+      // const newAsset = new Asset({
+      //   name: asset.name,
+      //   status: "Unapproved",
+      //   type: asset.mimeType,
+      // });
+
+      // const firstRevision = new Revision(1);
+      // const newFile = new File({
+      //   src: fileKey,
+      //   mime_type: asset.mimeType,
+      //   file_size: asset.fileSize,
+      //   is_original: asset.isOriginal,
+      //   file_extension: asset.fileExtension,
+      //   height: asset.height,
+      //   width: asset.width,
+      // });
+
+      // newAsset.revisions.add(firstRevision);
+      // firstRevision.files.add(newFile);
+      // userProject.project.assets.add(newAsset);
+
+      const newAsset = await Prisma.asset.create({
+        data: {
+          project: {
+            connect: {
+              id: Number(projectId),
+            },
+          },
+          name: asset.name,
+          status: "Unapproved",
+          type: asset.mimeType,
+          revisions: {
+            create: [
+              {
+                version: 1,
+                files: {
+                  create: [
+                    {
+                      src: fileKey,
+                      mime_type: asset.mimeType,
+                      file_size: asset.fileSize,
+                      is_original: asset.isOriginal,
+                      file_extension: asset.fileExtension,
+                      height: asset.height,
+                      width: asset.width,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
       });
 
-      const firstRevision = new Revision(1);
-      const newFile = new File({
-        src: fileKey,
-        mime_type: asset.mimeType,
-        file_size: asset.fileSize,
-        is_original: asset.isOriginal,
-        file_extension: asset.fileExtension,
-        height: asset.height,
-        width: asset.width,
+      const createdAsset = await Prisma.asset.findFirst({
+        where: {
+          id: newAsset.id,
+        },
+        include: {
+          project: {
+            include: { user_projects: true },
+          },
+          revisions: {
+            include: {
+              files: true,
+            },
+          },
+        },
       });
-
-      newAsset.revisions.add(firstRevision);
-      firstRevision.files.add(newFile);
-      userProject.project.assets.add(newAsset);
-
-      await orm.em.persistAndFlush([userProject]);
 
       const uploadURL = await s3.getSignedUrlPromise("putObject", s3Params);
-
-      const createdAsset = await orm.em.findOne(Asset, { id: newAsset.id }, [
-        "revisions.files",
-      ]);
 
       return res.end(JSON.stringify({ createdAsset, fileKey, uploadURL }));
     }
