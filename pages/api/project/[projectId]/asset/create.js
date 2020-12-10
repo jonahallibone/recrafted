@@ -57,27 +57,6 @@ export default auth0.requireAuthentication(async (req, res) => {
         ContentType: asset.mimeType,
       };
 
-      // const newAsset = new Asset({
-      //   name: asset.name,
-      //   status: "Unapproved",
-      //   type: asset.mimeType,
-      // });
-
-      // const firstRevision = new Revision(1);
-      // const newFile = new File({
-      //   src: fileKey,
-      //   mime_type: asset.mimeType,
-      //   file_size: asset.fileSize,
-      //   is_original: asset.isOriginal,
-      //   file_extension: asset.fileExtension,
-      //   height: asset.height,
-      //   width: asset.width,
-      // });
-
-      // newAsset.revisions.add(firstRevision);
-      // firstRevision.files.add(newFile);
-      // userProject.project.assets.add(newAsset);
-
       const newAsset = await Prisma.asset.create({
         data: {
           project: {

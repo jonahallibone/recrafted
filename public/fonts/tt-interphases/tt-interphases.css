@@ -1,0 +1,114 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3985796, 2020-12-10T15:38:19-0500
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: TTInterphases-Thin by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/thin/
+ * 
+ * Webfont: TTInterphases-Light by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/light/
+ * 
+ * Webfont: TTInterphases-Regular by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/regular/
+ * 
+ * Webfont: TTInterphases-Medium by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/medium/
+ * 
+ * Webfont: TTInterphases-DemiBold by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/demi-bold/
+ * 
+ * Webfont: TTInterphases-Bold by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/bold/
+ * 
+ * Webfont: TTInterphases-ExtraBold by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/extra-bold/
+ * 
+ * Webfont: TTInterphases-Black by TypeType
+ * URL: https://www.myfonts.com/fonts/type-type/tt-interfaces/black/
+ * 
+ * 
+ * Webfonts copyright: Copyright (c) 2019 by TypeType. Designers Ivan Gladkikh, Pavel Emelyanov. Technical designers Marina Khodak, Kseniya Karataeva, Nadezhda Polomoshnova, Yuri Nako, Nadyr Rakhimov, Victor Rubenko. All rights reserved.
+ * 
+ * © 2020 MyFonts Inc
+*/
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/3cd184");
+
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 100;
+  font-style: normal;
+  src: url("/public/fonts/tt-interphases/TTInterphases-Thin/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-Thin/font.woff")
+      format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 200;
+  src: url("/public/fonts/tt-interphases/TTInterphases-Light/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-Light/font.woff")
+      format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 400;
+  src: url("/public/fonts/tt-interphases/TTInterphases-Regular/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-Regular/font.woff")
+      format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 500;
+  src: url("/public/fonts/tt-interphases/TTInterphases-Medium/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-Medium/font.woff")
+      format("woff");
+}
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 600;
+  src: url("/public/fonts/tt-interphases/TTInterphases-DemiBold/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-DemiBold/font.woff")
+      format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 700;
+  src: url("/public/fonts/tt-interphases/TTInterphases-Bold/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-Bold/font.woff")
+      format("woff");
+}
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 800;
+  src: url("/public/fonts/tt-interphases/TTInterphases-ExtraBold/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-ExtraBold/font.woff")
+      format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "TTInterphases";
+  font-weight: 900;
+  src: url("/public/fonts/tt-interphases/TTInterphases-Black/font.woff2")
+      format("woff2"),
+    url("/public/fonts/tt-interphases/TTInterphases-Black/font.woff")
+      format("woff");
+  font-display: swap;
+}

@@ -88,7 +88,7 @@ const CreateRevisionModal = ({
         <ModalCloseButton />
         <Container maxW="xl">
           <Stack h="100vh" align="center" justify="center">
-            <Heading size="lg" fontWeight="light" mb="8">
+            <Heading size="lg" fontWeight="medium" mb="8">
               Add New Revision to {assetName}
             </Heading>
             {!revisionFile.previewURL && (
@@ -120,7 +120,7 @@ const CreateRevisionModal = ({
                 <Image src={revisionFile.previewURL} />
               </Box>
             )}
-            <Button colorScheme="teal" onClick={uploadRevision} disabled={!uploadState?.status}>
+            <Button colorScheme="teal" onClick={uploadRevision} disabled={uploadState?.status}>
               {!uploadState?.status
                 ? "Create New Revision"
                 : `${uploadState.status} ${uploadState.progress || ""}%`}
