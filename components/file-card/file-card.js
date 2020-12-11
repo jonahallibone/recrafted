@@ -9,7 +9,7 @@ import {
   Heading,
   Skeleton,
   Stack,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { uploadFile } from "utils/upload-new-asset";
 
@@ -79,9 +79,8 @@ const FileCard = ({ isLoading, asset, projectId }) => {
               {!uploadState.isUploading && (
                 <Image
                   src={`https://d2iutcxiokgxnt.cloudfront.net/${asset.revisions[0]?.files[0]?.src}`}
-                  // height={500}
-                  // width={500}
-                  layout="fill"
+                  h="100%"
+                  objectFit="cover"
                 />
               )}
               {uploadState.isUploading && (

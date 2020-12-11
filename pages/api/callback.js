@@ -1,26 +1,27 @@
 import "reflect-metadata";
-import auth0 from "../../config/auth0";
-import startOrm from "../../config/initalize-database";
-import { User } from "../../entities/User";
+import auth0 from "config/auth0";
+import Prisma from "config/prisma";
 
 export default async function callback(req, res) {
   try {
     await auth0.handleCallback(req, res, {
       onUserLoaded: async (req, res, session, state) => {
-        const orm = await startOrm();
-        const userExists = await orm.em.findOne(User, {
-          sub: session.user.sub,
+        const userExists = await Prisma.user.findFirst({
+          where: {
+            sub: session.user.sub,
+          },
         });
-        console.log(userExists);
 
         if (!userExists) {
-          const user = new User(
-            session.user.name,
-            session.user.email,
-            session.user.sub
-          );
-          await orm.em.persistAndFlush([user]);
+          await Prisma.user.create({
+            data: {
+              name: session.user.name,
+              email: session.user.email,
+              sub: session.user.sub,
+            },
+          });
         }
+
         return userExists
           ? {
               ...session,

@@ -1,7 +1,4 @@
-
-import "reflect-metadata";
-import startOrm from "config/initalize-database";
-import { User } from "entities/User";
+import Prisma from "config/prisma";
 
 export default async (req, res) => {
   if (req.method === "POST") {
@@ -11,8 +8,11 @@ export default async (req, res) => {
 
     console.log(email);
 
-    const orm = await startOrm();
-    const users = await orm.em.findOne(User, { email });
+    const users = await Prisma.user.findFirst({
+      where: {
+        email
+      },
+    });
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");

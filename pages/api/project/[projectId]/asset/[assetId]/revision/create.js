@@ -1,12 +1,8 @@
 import "reflect-metadata";
 import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
-import startOrm from "config/initalize-database";
 import auth0 from "config/auth0";
-import { UserProject } from "entities/UserProject";
-import { Asset } from "entities/Asset";
-import { Revision } from "entities/Revision";
-import { File } from "entities/File";
+import Prisma from "config/prisma";
 
 export default auth0.requireAuthentication(async (req, res) => {
   if (req.method === "PUT") {
@@ -15,19 +11,20 @@ export default auth0.requireAuthentication(async (req, res) => {
       body: { revision },
     } = req;
 
-    const orm = await startOrm();
-
     const session = await auth0.getSession(req);
     const { user: sessionUser } = session;
 
-    const asset = await orm.em.findOne(
-      Asset,
-      {
-        id: assetId,
-        project: { users: { user: { email: sessionUser.email } } },
+    const asset = await Prisma.asset.findFirst({
+      where: {
+        id: Number(assetId),
+        project: {
+          user_projects: { some: { user: { email: sessionUser.email } } },
+        },
       },
-      ["revisions.files"]
-    );
+      include: {
+        revisions: true,
+      },
+    });
 
     if (asset) {
       AWS.config.update({
@@ -49,31 +46,50 @@ export default auth0.requireAuthentication(async (req, res) => {
         ContentType: revision.mimeType,
       };
 
-      const versionNumber = asset.revisions.length;
+      const versionNumber = asset.revisions.length + 1;
 
-      const firstRevision = new Revision(versionNumber);
-      const newFile = new File({
-        src: fileKey,
-        mime_type: revision.mimeType,
-        file_size: revision.fileSize,
-        is_original: revision.isOriginal,
-        file_extension: revision.fileExtension,
-        height: revision.height,
-        width: revision.width,
+      const addNewRevisionToAsset = await Prisma.asset.update({
+        where: {
+          id: Number(assetId),
+        },
+        data: {
+          revisions: {
+            create: {
+              version: versionNumber,
+              files: {
+                create: {
+                  src: fileKey,
+                  mime_type: revision.mimeType,
+                  file_size: revision.fileSize,
+                  is_original: revision.isOriginal,
+                  file_extension: revision.fileExtension,
+                  height: revision.height,
+                  width: revision.width,
+                },
+              },
+            },
+          },
+        },
+        include: {
+          revisions: {
+            orderBy: { created_at: "desc" },
+            take: 1,
+          },
+        },
       });
 
-      asset.revisions.add(firstRevision);
-      firstRevision.files.add(newFile);
-
-      await orm.em.persistAndFlush([asset]);
-
-      const uploadURL = await s3.getSignedUrlPromise("putObject", s3Params);
-
-      const createdAsset = await orm.em.findOne(Asset, { id: asset.id }, [
-        "revisions.files",
-      ]);
-
-      return res.end(JSON.stringify({ createdAsset, fileKey, uploadURL }));
+      try {
+        const uploadURL = await s3.getSignedUrlPromise("putObject", s3Params);
+        return res.end(
+          JSON.stringify({
+            createdAsset: addNewRevisionToAsset,
+            fileKey,
+            uploadURL,
+          })
+        );
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     res.status(405);
