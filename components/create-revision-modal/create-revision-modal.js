@@ -16,6 +16,7 @@ import { useDropzone } from "react-dropzone";
 import Link from "next/link";
 import uploadNewAsset, { uploadFile } from "utils/upload-new-asset";
 import { ArrowRight } from "react-feather";
+import { mutate } from "swr";
 
 const CreateRevisionModal = ({
   onClose,
@@ -55,12 +56,19 @@ const CreateRevisionModal = ({
 
     try {
       setUploadState((state) => ({ ...state, status: "Preparing..." }));
-      const { uploadURL } = await uploadNewAsset({
+      const { uploadURL, createdAsset } = await uploadNewAsset({
         url: `/api/project/${projectId}/asset/${assetId}/revision/create`,
         assetId,
         file: { file },
         requestKey: "revision",
       });
+
+      setNewRevision(createdAsset);
+
+      mutate(`/api/project/${projectId}/asset/${assetId}`, (asset) => ({
+        ...asset,
+        // revisions: [...asset.revisions, createdAsset.revisions[0]],
+      }));
 
       const { size } = file;
 
@@ -139,7 +147,7 @@ const CreateRevisionModal = ({
             )}
             {uploadState.status === "Done" && (
               <Link
-                href={`/project/${projectId}/asset/${assetId}/version/${1}`}
+                href={`/project/${projectId}/asset/${assetId}/version/${newRevision.revisions[0].version}`}
               >
                 <Button
                   rightIcon={<ArrowRight />}

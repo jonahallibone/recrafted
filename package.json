@@ -2,13 +2,6 @@
   "name": "recrafted",
   "version": "1.0.0",
   "private": true,
-  "mikro-orm": {
-    "useTsNode": true,
-    "tsConfigPath": "./tsconfig.orm.json",
-    "configPaths": [
-      "./config/mikro-orm.ts"
-    ]
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
