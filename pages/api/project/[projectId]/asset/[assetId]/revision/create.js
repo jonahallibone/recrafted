@@ -72,6 +72,9 @@ export default auth0.requireAuthentication(async (req, res) => {
         },
         include: {
           revisions: {
+            include: {
+              files: true
+            },
             orderBy: { created_at: "desc" },
             take: 1,
           },

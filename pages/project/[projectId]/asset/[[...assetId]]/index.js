@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -40,6 +40,10 @@ const Asset = () => {
   const [currentAssetVersion, setCurrentAssetVersion] = useState(
     version && versionId ? versionId - 1 : 0
   );
+
+  useEffect(() => {
+    setCurrentAssetVersion(version && versionId ? versionId - 1 : 0);
+  }, [assetId, version, versionId]);
 
   const { data, error } = useSWR(
     `/api/project/${projectId}/asset/${id}`,
@@ -113,8 +117,14 @@ const Asset = () => {
                 <MenuList>
                   {data &&
                     data.asset.revisions.map((_, index) => (
-                      <MenuItem onClick={() => setCurrentAssetVersion(index)}>
-                        v{`${index + 1}`}.0
+                      <MenuItem
+                        onClick={() =>
+                          router.push(
+                            `/project/${projectId}/asset/${id}/version/${index + 1}`
+                          )
+                        }
+                      >
+                        <>v{`${index + 1}`}.0</>
                       </MenuItem>
                     ))}
                 </MenuList>
