@@ -7,7 +7,7 @@ const Layout = ({ nopadding = false, noMinH = false, children }) => (
     boxSizing={nopadding ? "content-box" : "border-box"}
   >
     <Head>
-      <title>Tab Grab | Share a Screen Recording</title>
+      <title>Recrafted | Feedback for teams</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     {children}

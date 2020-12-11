@@ -1,6 +1,6 @@
 {
-  "name": "feedstack",
-  "version": "0.1.0",
+  "name": "recrafted",
+  "version": "1.0.0",
   "private": true,
   "mikro-orm": {
     "useTsNode": true,

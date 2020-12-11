@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
@@ -34,10 +34,18 @@ import CreateRevisionModal from "components/create-revision-modal/create-revisio
 const Asset = () => {
   const router = useRouter();
   const { assetId, projectId } = router.query;
+
+  const [id, version, versionId] = assetId;
+
+  const [currentAssetVersion, setCurrentAssetVersion] = useState(
+    version && versionId ? versionId - 1 : 0
+  );
+
   const { data, error } = useSWR(
-    `/api/project/${projectId}/asset/${assetId}`,
+    `/api/project/${projectId}/asset/${id}`,
     fetcher
   );
+
   const { auth } = useAuthProvider();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -48,7 +56,7 @@ const Asset = () => {
           assetName={data.asset.name}
           isOpen={isOpen}
           onClose={onClose}
-          assetId={assetId}
+          assetId={id}
           projectId={projectId}
         />
       )}
@@ -96,12 +104,18 @@ const Asset = () => {
               </Button>
               <Menu>
                 <MenuButton ml="4" as={Button} rightIcon={<ChevronDownIcon />}>
-                  {data ? "v1.0" : <Skeleton h="20px" w="20px" />}
+                  {data ? (
+                    `v${currentAssetVersion + 1}`
+                  ) : (
+                    <Skeleton h="20px" w="20px" />
+                  )}
                 </MenuButton>
                 <MenuList>
                   {data &&
                     data.asset.revisions.map((_, index) => (
-                      <MenuItem>v{`${index + 1}`}.0</MenuItem>
+                      <MenuItem onClick={() => setCurrentAssetVersion(index)}>
+                        v{`${index + 1}`}.0
+                      </MenuItem>
                     ))}
                 </MenuList>
                 <IconButton icon={<MoreHorizontal />} />
@@ -112,12 +126,21 @@ const Asset = () => {
       </Box>
       <Box>
         <Container maxW="100%" p="0">
-          <Grid templateColumns="repeat(5, 1fr)" height="calc(100vh - 138px)" overflow="hidden">
-            <GridItem colSpan={4} maxHeight="100%" overflowY="auto" maxH="calc(100vh - 138px)">
+          <Grid
+            templateColumns="repeat(5, 1fr)"
+            height="calc(100vh - 138px)"
+            overflow="hidden"
+          >
+            <GridItem
+              colSpan={4}
+              maxHeight="100%"
+              overflowY="auto"
+              maxH="calc(100vh - 138px)"
+            >
               <Stack>
                 {data ? (
                   <Image
-                    src={`https://d2iutcxiokgxnt.cloudfront.net/${data.asset.revisions[0].files[0].src}`}
+                    src={`https://d2iutcxiokgxnt.cloudfront.net/${data.asset.revisions[currentAssetVersion].files[0].src}`}
                     objectFit="contain"
                   />
                 ) : (

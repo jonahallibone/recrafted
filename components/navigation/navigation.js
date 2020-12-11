@@ -114,7 +114,7 @@ const Navigation = ({ children }) => {
                   cursor="pointer"
                 >
                   <Text fontSize="2xl" fontWeight="bold" color="white">
-                    recraft
+                    recrafted
                   </Text>
                 </Box>
               </Link>

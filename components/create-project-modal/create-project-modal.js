@@ -53,7 +53,7 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <Container>
           <Stack h="100vh" align="center" justify="center">
-            <Heading size="lg" fontWeight="light" mb="8">
+            <Heading size="lg" fontWeight="medium" mb="8">
               Create a new project
             </Heading>
             <FormControl>

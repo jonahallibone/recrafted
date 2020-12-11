@@ -10,9 +10,12 @@ import {
   Button,
   Box,
   Image,
+  IconButton,
 } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
+import Link from "next/link";
 import uploadNewAsset, { uploadFile } from "utils/upload-new-asset";
+import { ArrowRight } from "react-feather";
 
 const CreateRevisionModal = ({
   onClose,
@@ -26,6 +29,7 @@ const CreateRevisionModal = ({
     previewURL: null,
   });
   const [uploadState, setUploadState] = useState({});
+  const [newRevision, setNewRevision] = useState(null);
 
   const onDrop = (acceptedFiles) => {
     const [file] = acceptedFiles;
@@ -88,7 +92,7 @@ const CreateRevisionModal = ({
         <ModalCloseButton />
         <Container maxW="xl">
           <Stack h="100vh" align="center" justify="center">
-            <Heading size="lg" fontWeight="light" mb="8">
+            <Heading size="lg" fontWeight="medium" mb="8">
               Add New Revision to {assetName}
             </Heading>
             {!revisionFile.previewURL && (
@@ -105,7 +109,9 @@ const CreateRevisionModal = ({
                   bg={isDragActive ? "blue.50" : "gray.50"}
                 >
                   <Box as="input" visibility="hidden" {...getInputProps()} />
-                  <Heading size="md">Drop New Revision here or Browse</Heading>
+                  <Heading size="md">
+                    Drop New Revision here or Click to Browse
+                  </Heading>
                 </Box>
               </Box>
             )}
@@ -120,11 +126,32 @@ const CreateRevisionModal = ({
                 <Image src={revisionFile.previewURL} />
               </Box>
             )}
-            <Button colorScheme="teal" onClick={uploadRevision} disabled={!uploadState?.status}>
-              {!uploadState?.status
-                ? "Create New Revision"
-                : `${uploadState.status} ${uploadState.progress || ""}%`}
-            </Button>
+            {uploadState.status !== "Done" && (
+              <Button
+                colorScheme="teal"
+                onClick={uploadRevision}
+                disabled={uploadState?.status}
+              >
+                {!uploadState?.status
+                  ? "Create New Revision"
+                  : `${uploadState.status} ${uploadState.progress || ""}%`}
+              </Button>
+            )}
+            {uploadState.status === "Done" && (
+              <Link
+                href={`/project/${projectId}/asset/${assetId}/version/${1}`}
+              >
+                <Button
+                  rightIcon={<ArrowRight />}
+                  as="a"
+                  colorScheme="blue"
+                  cursor="pointer"
+                  onClick={onClose}
+                >
+                  Go to new version
+                </Button>
+              </Link>
+            )}
           </Stack>
         </Container>
       </ModalContent>

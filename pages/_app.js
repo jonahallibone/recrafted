@@ -30,8 +30,8 @@ const CustomApp = ({ Component, pageProps, authenticated, user }) => {
         theme={{
           ...theme,
           fonts: {
-            body: "DM Sans, sans-serif",
-            heading: "DM Sans, serif",
+            body: "TT Interphases, sans-serif",
+            heading: "TT Interphases, sans-serif",
             mono: "Menlo, monospace",
           },
         }}
