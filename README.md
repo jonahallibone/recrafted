@@ -1,30 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Getting started
 
-## Getting Started
+Clone the repo and perform an `npm install`
 
-First, run the development server:
+# Note on Prisma
+It is installed as a devDependency, which means access to the cli granted via `npx`
 
-```bash
-npm run dev
-# or
-yarn dev
+For example:
 ```
+npx prisma generate --watch
+```
+will watch and generate models as the db schema changes
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Step 1: Get MySQL set up
+Make sure docker is installed and active. Navigate into the root directory and run
+```
+docker-compose up -d
+```
+To confirm this works, run `docker ps`. It should list something similar to
+```
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                               NAMES
+542eb3bfd4f7   mysql:8.0.22   "docker-entrypoint.s…"   x minutes ago    Up x minutes    33060/tcp, 0.0.0.0:3308->3306/tcp   recrafted_db_1
+```
+## Step 2: npm
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+run `npm i`
 
-## Learn More
+## Step 3: prisma
 
-To learn more about Next.js, take a look at the following resources:
+Getting prisma set is pretty easy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Run `npx prisma generate` to generate the binary for the models. 
+- - You could also continuously generate with `npx prisma generate --watch`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Now that the binary is generated, run command `npx prisma migrate dev --preview-feature`
 
-## Deploy on Vercel
+This should connect to the database and create the schema. 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Step 4: develop
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Run `npm run dev` and check `http://localhost:3000`
+
+
