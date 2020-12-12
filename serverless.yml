@@ -3,5 +3,8 @@ recraft:
   inputs:
     domain: "tabgrab.app"
     useServerlessTraceTarget: true
+    name:
+      defaultLambda: defaultLambda
+      apiLambda: apiLambda
     build:
       cmd: "./run-migrations.sh"

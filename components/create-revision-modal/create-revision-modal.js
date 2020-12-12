@@ -65,9 +65,13 @@ const CreateRevisionModal = ({
 
       setNewRevision(createdAsset);
 
-      mutate(`/api/project/${projectId}/asset/${assetId}`, (asset) => ({
-        ...asset,
-        // revisions: [...asset.revisions, createdAsset.revisions[0]],
+      mutate(`/api/project/${projectId}/asset/${assetId}`, (data) => ({
+        ...data,
+        asset: {
+          ...data.asset,
+          revisions: [...data.asset.revisions],
+        }
+       
       }));
 
       const { size } = file;

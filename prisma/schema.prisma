@@ -11,7 +11,7 @@ datasource db {
 model asset {
   id         Int        @id @default(autoincrement())
   created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt 
+  updated_at DateTime   @updatedAt
   type       String
   status     String
   project_id Int
@@ -25,7 +25,7 @@ model asset {
 model comment {
   id            Int      @id @default(autoincrement())
   created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt 
+  updated_at    DateTime @updatedAt
   description   String
   x_coordinate  Int?
   y_coordinate  Int
@@ -40,7 +40,7 @@ model comment {
 model file {
   id             Int      @id @default(autoincrement())
   created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt 
+  updated_at     DateTime @updatedAt
   src            String
   is_original    Boolean
   revision_id    Int
@@ -55,42 +55,44 @@ model file {
 }
 
 model project {
-  id              Int            @id @default(autoincrement())
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt 
-  project_name    String
-  thumbnail_color String
-  assets          asset[]
-  user_projects   user_project[]
+  id                 Int                  @id @default(autoincrement())
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+  project_name       String
+  thumbnail_color    String
+  assets             asset[]
+  user_projects      user_project[]
+  project_invitation project_invitation[]
 }
 
 model revision {
   id         Int       @id @default(autoincrement())
   created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt 
+  updated_at DateTime  @updatedAt
   version    Int
   asset_id   Int
   asset      asset     @relation(fields: [asset_id], references: [id])
-  comments    comment[]
-  files       file[]
+  comments   comment[]
+  files      file[]
 
   @@index([asset_id], name: "revision_asset_id_index")
 }
 
 model user {
-  id           Int            @id @default(autoincrement())
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @updatedAt 
-  name         String
-  sub          String         @unique
-  email        String         @unique
-  user_project user_project[]
+  id                 Int                  @id @default(autoincrement())
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+  name               String
+  sub                String               @unique
+  email              String               @unique
+  user_project       user_project[]
+  project_invitation project_invitation[]
 }
 
 model user_project {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt 
+  updated_at DateTime @updatedAt
   user_id    Int?
   project_id Int?     @unique
   is_active  Boolean
@@ -100,4 +102,18 @@ model user_project {
 
   @@index([project_id], name: "user_project_project_id_index")
   @@index([user_id], name: "user_project_user_id_index")
+}
+
+model project_invitation {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  sender_id  Int
+  project_id Int
+  recipient  String
+  expires_at DateTime?
+  email_code String    @unique
+  message    String?
+  sender     user      @relation(fields: [sender_id], references: [id])
+  project    project   @relation(fields: [project_id], references: [id])
 }
