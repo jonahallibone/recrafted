@@ -30,7 +30,7 @@ const CopyLink = ({ value }) => {
   };
 
   return (
-    <Stack mt="4">
+    <Stack mt="4" _first={{ mt: 0 }}>
       <Flex justifyContent="center">
         <Heading size="md">Share this recording</Heading>
       </Flex>

@@ -18,7 +18,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
           <link
-            href="/public/fonts/tt-interphases/tt-interphases.css"
+            href="/fonts/tt-interphases/tt-interphases.css"
             rel="stylesheet"
           />
         </Head>

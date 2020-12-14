@@ -42,73 +42,73 @@
 @import url("//hello.myfonts.net/count/3cd184");
 
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 100;
   font-style: normal;
-  src: url("/public/fonts/tt-interphases/TTInterphases-Thin/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-Thin/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-Thin/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-Thin/font.woff")
       format("woff");
   font-display: swap;
 }
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 200;
-  src: url("/public/fonts/tt-interphases/TTInterphases-Light/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-Light/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-Light/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-Light/font.woff")
       format("woff");
   font-display: swap;
 }
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 400;
-  src: url("/public/fonts/tt-interphases/TTInterphases-Regular/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-Regular/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-Regular/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-Regular/font.woff")
       format("woff");
   font-display: swap;
 }
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 500;
-  src: url("/public/fonts/tt-interphases/TTInterphases-Medium/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-Medium/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-Medium/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-Medium/font.woff")
       format("woff");
 }
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 600;
-  src: url("/public/fonts/tt-interphases/TTInterphases-DemiBold/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-DemiBold/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-DemiBold/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-DemiBold/font.woff")
       format("woff");
   font-display: swap;
 }
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 700;
-  src: url("/public/fonts/tt-interphases/TTInterphases-Bold/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-Bold/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-Bold/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-Bold/font.woff")
       format("woff");
 }
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 800;
-  src: url("/public/fonts/tt-interphases/TTInterphases-ExtraBold/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-ExtraBold/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-ExtraBold/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-ExtraBold/font.woff")
       format("woff");
   font-display: swap;
 }
 @font-face {
-  font-family: "TTInterphases";
+  font-family: "TT Interphases";
   font-weight: 900;
-  src: url("/public/fonts/tt-interphases/TTInterphases-Black/font.woff2")
+  src: url("/fonts/tt-interphases/TTInterphases-Black/font.woff2")
       format("woff2"),
-    url("/public/fonts/tt-interphases/TTInterphases-Black/font.woff")
+    url("/fonts/tt-interphases/TTInterphases-Black/font.woff")
       format("woff");
   font-display: swap;
 }

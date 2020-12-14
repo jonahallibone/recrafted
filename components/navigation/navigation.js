@@ -93,8 +93,8 @@ const Navigation = ({ children }) => {
   return (
     <Container maxWidth="100%" px="0">
       <Grid templateColumns="250px 1fr" h="100vh">
-        <GridItem bg="black">
-          <Stack>
+        <GridItem bg="gray.800">
+          <Stack spacing="0">
             <Box
               d="flex"
               justifyContent="space-between"
@@ -105,6 +105,7 @@ const Navigation = ({ children }) => {
               left="0"
               zIndex="99"
               px="4"
+              height="73px"
             >
               <Link href="/">
                 <Box
@@ -113,13 +114,13 @@ const Navigation = ({ children }) => {
                   alignItems="center"
                   cursor="pointer"
                 >
-                  <Text fontSize="2xl" fontWeight="bold" color="white">
+                  <Text fontSize="xl" fontWeight="600" color="white">
                     recrafted
                   </Text>
                 </Box>
               </Link>
             </Box>
-            <Box>
+            <Box mt="0">
               <Stack direction="column">
                 <SidebarLink href="/">
                   <Icon as={GridIcon} mr="4" /> Projects
