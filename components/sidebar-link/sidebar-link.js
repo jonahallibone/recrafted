@@ -12,7 +12,7 @@ const SidebarLink = ({ children, href }) => {
       <Box
         as="a"
         fontWeight="bold"
-        bg={isActive ? "gray.800" : "transparent"}
+        bg={isActive ? "gray.600" : "transparent"}
         color="white"
         px="4"
         py="3"
