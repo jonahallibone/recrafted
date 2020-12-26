@@ -12,6 +12,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { uploadFile } from "utils/upload-new-asset";
+import { mutate } from "swr";
 
 const FileCard = ({ isLoading, asset, projectId }) => {
   const [uploadState, setUploadState] = useState({});
@@ -32,23 +33,77 @@ const FileCard = ({ isLoading, asset, projectId }) => {
       return { ...prevState, progress: percentage, isUploading: true };
     }
 
-    offsetUploadFinish();
     return { ...prevState, progress: percentage, isUploading: true };
   }, []);
 
+  const modifyAssets = useCallback(
+    (data, files) => {
+      const workingIndex = data.assets.findIndex(
+        (mapAsset) => mapAsset.id === asset.id
+      );
+      const copiedAssets = [...data];
+      copiedAssets[workingIndex] = {
+        ...copiedAssets[workingIndex],
+        revisions: [
+          {
+            ...copiedAssets[workingIndex].revisions[0],
+            files,
+          },
+        ],
+      };
+
+      return copiedAssets;
+    },
+    [asset]
+  );
+
   useEffect(() => {
-    if (asset?.isReadyToUpload) {
-      const { size } = asset.file;
-      uploadFile({
-        uploadURL: asset.uploadURL,
-        file: asset.file,
-        onProgressChange: (progress) =>
-          setUploadState((state) =>
-            handleUploadChange({ ...state, progress, size })
-          ),
-      });
+    const runUpload = async () => {
+      if (asset?.isReadyToUpload) {
+        const { size } = asset.file;
+        const { files } = await uploadFile({
+          uploadURL: asset.uploadURL,
+          file: asset.file,
+          fileKey: asset.fileKey,
+          revisionId: asset.revisions[0].id,
+          onProgressChange: (progress) =>
+            setUploadState((state) =>
+              handleUploadChange({ ...state, progress, size })
+            ),
+        });
+
+        mutate(`/api/project/${projectId}`, (prevData) => ({
+          ...prevData,
+          userProject: {
+            ...prevData.userProject,
+            project: {
+              ...prevData.userProject.project,
+              // assets: modifyAssets(prevData.project.assets, files),
+              assets: {
+                ...prevData.userProject.project.assets,
+              },
+            },
+          },
+        }));
+
+        offsetUploadFinish();
+      }
+    };
+    runUpload();
+  }, [asset, handleUploadChange, modifyAssets, projectId]);
+
+  const getThumbnail = () => {
+    const lastRevision = asset.revisions.slice(-1)[0];
+    const thumbnail = lastRevision.files.find(
+      (file) => file.type === "thumbnail"
+    );
+
+    if (thumbnail) {
+      return thumbnail.src;
     }
-  }, [asset, handleUploadChange]);
+
+    return lastRevision.files[0].src;
+  };
 
   if (isLoading) {
     return (
@@ -78,7 +133,7 @@ const FileCard = ({ isLoading, asset, projectId }) => {
             <Box height="100%" position="absolute" rounded="md" bg="gray.100">
               {!uploadState.isUploading && (
                 <Image
-                  src={`https://d2iutcxiokgxnt.cloudfront.net/${asset.revisions[0]?.files[0]?.src}`}
+                  src={`https://d2iutcxiokgxnt.cloudfront.net/${getThumbnail()}`}
                   h="100%"
                   objectFit="cover"
                 />

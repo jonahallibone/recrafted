@@ -42,7 +42,7 @@ model file {
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
   src            String
-  is_original    Boolean
+  is_original    Boolean @default(true)
   revision_id    Int
   file_size      Int
   mime_type      String
@@ -50,7 +50,7 @@ model file {
   height         Int?
   width          Int?
   revision       revision @relation(fields: [revision_id], references: [id])
-
+  type           String @default("original")
   @@index([revision_id], name: "file_revision_id_index")
 }
 

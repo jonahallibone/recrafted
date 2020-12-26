@@ -36,6 +36,7 @@ const Project = () => {
           file: uploadFile,
           createdAsset,
           uploadURL,
+          fileKey,
         } = await uploadNewAsset({
           url: `/api/project/${projectId}/asset/create`,
           projectId,
@@ -54,6 +55,7 @@ const Project = () => {
                   isReadyToUpload: true,
                   uploadURL,
                   file: uploadFile.file,
+                  fileKey,
                   ...createdAsset,
                 },
                 ...prevData.userProject.project.assets,

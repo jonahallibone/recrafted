@@ -37,7 +37,7 @@ export default auth0.requireAuthentication(async (req, res) => {
 
       const s3 = new AWS.S3();
       const randomID = uuidv4();
-      const fileKey = `${randomID}.${asset.fileExtension}`;
+      const fileKey = `${randomID}.${revision.fileExtension}`;
 
       const s3Params = {
         Bucket: process.env.UPLOAD_BUCKET,
@@ -47,7 +47,7 @@ export default auth0.requireAuthentication(async (req, res) => {
       };
 
       const versionNumber = asset.revisions.length + 1;
-
+      console.log(revision);
       const addNewRevisionToAsset = await Prisma.asset.update({
         where: {
           id: Number(assetId),

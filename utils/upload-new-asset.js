@@ -1,6 +1,5 @@
 import axios from "axios";
 import fetcher from "utils/fetcher";
-import { mutate } from "swr";
 
 function getFileExtension(filename) {
   // eslint-disable-next-line no-bitwise
@@ -26,15 +25,19 @@ const uploadNewAsset = async ({ url = "", file, requestKey }) => {
     }),
   });
 
-  return { file, createdAsset, uploadURL };
+  return { file, createdAsset, uploadURL, fileKey };
 };
 
 const uploadFile = async ({
   file,
   uploadURL,
+  fileKey,
+  revisionId,
   onProgressChange = () => {},
-  onError = () => {},
-  onSuccess = () => {},
+  onError = (error) => {
+    console.error(error);
+  },
+  onSuccess = (success) => success,
 }) => {
   try {
     await axios.put(uploadURL, file, {
@@ -42,8 +45,24 @@ const uploadFile = async ({
       onUploadProgress: (progressEvent) =>
         onProgressChange(progressEvent.loaded),
     });
+
+    const { files } = await fetcher("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fileKey,
+        revisionId,
+      }),
+    });
+
+    onSuccess({ files });
+
+    return { files };
   } catch (error) {
-    console.error(error);
+    onError(error);
+    return { error };
   }
 };
 

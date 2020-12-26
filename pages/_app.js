@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { ChakraProvider, Grid, GridItem, theme } from "@chakra-ui/react";
+import { ChakraProvider, Global, Grid, GridItem, theme } from "@chakra-ui/react";
 import "isomorphic-unfetch";
 import App from "next/app";
 import Router from "next/router";

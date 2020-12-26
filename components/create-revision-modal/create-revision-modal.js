@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -10,7 +10,6 @@ import {
   Button,
   Box,
   Image,
-  IconButton,
 } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
 import Link from "next/link";
@@ -56,7 +55,7 @@ const CreateRevisionModal = ({
 
     try {
       setUploadState((state) => ({ ...state, status: "Preparing..." }));
-      const { uploadURL, createdAsset } = await uploadNewAsset({
+      const { uploadURL, createdAsset, fileKey } = await uploadNewAsset({
         url: `/api/project/${projectId}/asset/${assetId}/revision/create`,
         assetId,
         file: { file },
@@ -70,8 +69,7 @@ const CreateRevisionModal = ({
         asset: {
           ...data.asset,
           revisions: [...data.asset.revisions],
-        }
-       
+        },
       }));
 
       const { size } = file;
@@ -79,6 +77,9 @@ const CreateRevisionModal = ({
       await uploadFile({
         uploadURL,
         file,
+        fileKey,
+        // Get the last item in the revisions array to convert the files
+        revisionId: createdAsset.revisions[0].id,
         onProgressChange: (progress) =>
           setUploadState((state) => ({
             status: "Uploading",

@@ -53,6 +53,15 @@ const Asset = () => {
   const { auth } = useAuthProvider();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const getConvertedUrl = () => {
+    // data.asset.revisions[currentAssetVersion].files[0].src
+    const converted = data.asset.revisions[currentAssetVersion].files.find(
+      (file) => file.type === "full"
+    );
+
+    return converted.src;
+  };
+
   return (
     <Layout nopadding>
       {data && (
@@ -120,7 +129,9 @@ const Asset = () => {
                       <MenuItem
                         onClick={() =>
                           router.push(
-                            `/project/${projectId}/asset/${id}/version/${index + 1}`
+                            `/project/${projectId}/asset/${id}/version/${
+                              index + 1
+                            }`
                           )
                         }
                       >
@@ -150,7 +161,7 @@ const Asset = () => {
               <Stack>
                 {data ? (
                   <Image
-                    src={`https://d2iutcxiokgxnt.cloudfront.net/${data.asset.revisions[currentAssetVersion].files[0].src}`}
+                    src={`https://d2iutcxiokgxnt.cloudfront.net/${getConvertedUrl()}`}
                     objectFit="contain"
                   />
                 ) : (
