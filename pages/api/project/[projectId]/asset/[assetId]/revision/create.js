@@ -47,7 +47,6 @@ export default auth0.requireAuthentication(async (req, res) => {
       };
 
       const versionNumber = asset.revisions.length + 1;
-      console.log(revision);
       const addNewRevisionToAsset = await Prisma.asset.update({
         where: {
           id: Number(assetId),
@@ -73,7 +72,7 @@ export default auth0.requireAuthentication(async (req, res) => {
         include: {
           revisions: {
             include: {
-              files: true
+              files: true,
             },
             orderBy: { created_at: "desc" },
             take: 1,

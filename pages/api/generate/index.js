@@ -57,6 +57,7 @@ export default auth0.requireAuthentication(async (req, res) => {
       },
       include: {
         files: true,
+        author: true
       },
     });
 

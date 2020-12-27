@@ -28,10 +28,11 @@ model comment {
   updated_at    DateTime @updatedAt
   description   String
   x_coordinate  Int?
-  y_coordinate  Int
+  y_coordinate  Int?
   is_annotation Boolean
-  author        Json
+  author_id     Int
   revision_id   Int
+  author        user @relation(fields: [author_id], references: [id])
   revision      revision @relation(fields: [revision_id], references: [id])
 
   @@index([revision_id], name: "comment_revision_id_index")

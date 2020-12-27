@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Box,
   Button,
   Container,
@@ -18,7 +17,6 @@ import {
   Skeleton,
   Stack,
   Text,
-  Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -28,8 +26,8 @@ import fetcher from "utils/fetcher";
 import { Layers, MoreHorizontal } from "react-feather";
 import Layout from "components/layout/layout";
 import { ChevronDownIcon, ChevronLeftIcon } from "@chakra-ui/icons";
-import { useAuthProvider } from "contexts/auth-provider";
 import CreateRevisionModal from "components/create-revision-modal/create-revision-modal";
+import CommentSidebar from "../../../../../components/comment-sidebar/comment-sidebar";
 
 const Asset = () => {
   const router = useRouter();
@@ -50,11 +48,9 @@ const Asset = () => {
     fetcher
   );
 
-  const { auth } = useAuthProvider();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getConvertedUrl = () => {
-    // data.asset.revisions[currentAssetVersion].files[0].src
     const converted = data.asset.revisions[currentAssetVersion].files.find(
       (file) => file.type === "full"
     );
@@ -176,6 +172,7 @@ const Asset = () => {
               borderRight="1px solid"
               borderColor="gray.200"
               h="100%"
+              overflowY="scroll"
             >
               <Stack>
                 <Box
@@ -204,42 +201,12 @@ const Asset = () => {
                     </Box>
                   </Stack>
                 </Box>
-                <Box p="4">
-                  <Box
-                    rounded="md"
-                    border="1px solid"
-                    borderColor="gray.200"
-                    p="2"
-                  >
-                    <Stack>
-                      <Stack direction="row">
-                        <Avatar
-                          size="xs"
-                          name={auth.user.name}
-                          src={auth.user.picture}
-                        />
-                        <Textarea
-                          border="none"
-                          placeholder="Type your comment here..."
-                          _focus={{
-                            outline: "none",
-                          }}
-                        />
-                      </Stack>
-                      <Stack
-                        direction="row"
-                        justify="flex-end"
-                        borderTop="1px solid"
-                        borderColor="gray.200"
-                        pt="2"
-                      >
-                        <Button size="sm" colorScheme="blue">
-                          Send
-                        </Button>
-                      </Stack>
-                    </Stack>
-                  </Box>
-                </Box>
+                {data && (
+                  <CommentSidebar
+                    comments={data.asset.comments}
+                    revisionId={data.asset.revisions[currentAssetVersion].id}
+                  />
+                )}
               </Stack>
             </GridItem>
           </Grid>
